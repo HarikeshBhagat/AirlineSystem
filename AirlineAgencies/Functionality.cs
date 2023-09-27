@@ -13,7 +13,7 @@ namespace AirlineAgencies
         private AirlineAgenciesDbContext dbContext = new AirlineAgenciesDbContext();
         private DateTime currentDate = DateTime.Now;
 
-        public void RunChangeDetectionAlgorithm(DateTime startDate, DateTime endDate, Int64 agencyId)
+        public void ChangeDetectionAlgorithm(DateTime startDate, DateTime endDate, Int64 agencyId)
         {
             DateTime startTime = DateTime.Now;
 

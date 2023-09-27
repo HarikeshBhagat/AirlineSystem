@@ -16,7 +16,7 @@ namespace AirlineAgencies
                 Console.WriteLine("Please input valid parameters.");
                 return;
             }
-            //2016-10-11 2016-10-13 1
+
             if (!DateTime.TryParse(args[0], out DateTime startDate) ||
                 !DateTime.TryParse(args[1], out DateTime endDate) ||
                 !int.TryParse(args[2], out int agencyId))
@@ -25,9 +25,14 @@ namespace AirlineAgencies
                 return;
             }
 
-            Functionality detector = new Functionality();
-            detector.RunChangeDetectionAlgorithm(startDate, endDate, agencyId);
+            Console.WriteLine("Start : Airline system change algorithm.");
 
+            Functionality AirlinesAlgorithm = new Functionality();
+            AirlinesAlgorithm.ChangeDetectionAlgorithm(startDate, endDate, agencyId);
+
+            Console.WriteLine("End : Airline system change algorithm.");
+
+            Console.WriteLine("Press anykey to exit.");
             Console.ReadKey();
         }
     }
