@@ -17,21 +17,26 @@ namespace AirlineAgencies
         {
             DateTime startTime = DateTime.Now;
 
-            var newFlights = DetectNewFlights(startDate, endDate);
-            var discontinuedFlights = DetectDiscontinuedFlights(startDate, endDate);
+            #region DetectNewFlights
+              var newFlights = CheckNewFlights(startDate, endDate);
+            #endregion
+
+            #region DetectDiscontinuedFlights
+                var discontinuedFlights = CheckDiscontinuedFlights(startDate, endDate);
+            #endregion DetectNewFlights
 
             WriteToCSV(newFlights, discontinuedFlights);
-            // Measure the end time
-            DateTime endTime = DateTime.Now;
-
-            // Calculate and display execution time
+           
+            DateTime endTime = DateTime.Now;          
             TimeSpan executionTime = endTime - startTime;
             Console.WriteLine($"Execution time: {executionTime.TotalMilliseconds} ms");
-            Console.WriteLine("Results written to results.csv");
+           
         }
-
-        private List<ResultViewModel> DetectNewFlights(DateTime startDate, DateTime endDate)
+        private List<ResultViewModel> CheckNewFlights(DateTime startDate, DateTime endDate)
         {
+            Console.WriteLine("Start : Check New Flights.");
+
+            
             DateTime previousWeek = startDate.AddDays(-7).AddMinutes(-30);
             DateTime nextWeek = endDate.AddMinutes(30);
 
@@ -56,12 +61,13 @@ namespace AirlineAgencies
                 })
                 .ToList();
 
+            Console.WriteLine("End : Check New Flights.");
+
             return newFlights;
         }
-
-        private List<ResultViewModel> DetectDiscontinuedFlights(DateTime startDate, DateTime endDate)
+        private List<ResultViewModel> CheckDiscontinuedFlights(DateTime startDate, DateTime endDate)
         {
-
+            Console.WriteLine("Start : Check Discontinued Flights.");
             DateTime previousWeek = startDate.AddMinutes(-30);
             DateTime nextWeek = endDate.AddDays(7).AddMinutes(30);
 
@@ -86,21 +92,17 @@ namespace AirlineAgencies
                                 })
                 .ToList();
 
+            Console.WriteLine("End : Check Discontinued Flights.");
+
             return discontinuedFlights;
-        }
-        private DateTime EnsureValidDateTime(DateTime inputDateTime)
-        {
-            if (inputDateTime < DateTime.MinValue)
-                return DateTime.MinValue;
-            else if (inputDateTime > DateTime.MaxValue)
-                return DateTime.MaxValue;
-            else
-                return inputDateTime;
-        }
+        }       
         private void WriteToCSV(List<ResultViewModel> newFlights, List<ResultViewModel> discontinuedFlights)
         {
                 using (StreamWriter writer = new StreamWriter("results.csv"))
                 {
+
+                    Console.WriteLine("Start : Adding result into results.csv.");
+
                     writer.WriteLine("flight_id,origin_city_id,destination_city_id,departure_time,arrival_time,airline_id,status");
 
                     foreach (var flight in newFlights)
@@ -120,6 +122,9 @@ namespace AirlineAgencies
                         }
 
                     }
+
+                    Console.WriteLine("End : Adding result into results.csv.");
+                    Console.WriteLine("Airlines data added to results.csv");
                 }
         }
     }
